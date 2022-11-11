@@ -13,11 +13,26 @@ class Sprite{
         this.velocity = velocity
         this.height = 150
         this.lastKey
+        this.attackBox = {
+            position: this.position ,
+            width: 100,
+            height: 50
+        }
+        this.color = color
     }
 
     draw(){
-        c.fillStyle = 'red'
+        c.fillStyle = this.color
         c.fillRect(this.position.x, this.position.y, 50, this.height)
+
+        //hitbox
+        c.fillStyle = 'red'
+        c.fillRect(
+            this.attackBox.position.x, 
+            this.attackBox.y, 
+            this.attackBox.width, 
+            this.attackBox.height
+         )
     }
 
     update() {
@@ -41,6 +56,7 @@ const player = new Sprite({
         x: 0,
         y: 10
     }
+    color: 'green'
 })
 
 const enemy = new Sprite({
@@ -52,6 +68,7 @@ const enemy = new Sprite({
         x: 0,
         y: 10
     }
+    color: 'blue'
 })
 
 console.log(player)
