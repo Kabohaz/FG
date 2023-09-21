@@ -157,23 +157,23 @@ function animate(){
     }
 
     //collision detection
-    if {
+    if (
         boxCollision({
             rectangle1: player,
              rectangle2: enemy
             }) &&
         player.isAttacking
-    } {
+    ) {
         player.isAttacking = false
         console.log('hit detection')
     }
-    if {
+    if (
         boxCollision({
             rectangle1: enemy,
              rectangle2: player
             }) &&
         enemy.isAttacking
-    } {
+    ) {
         player.isAttacking = false
         console.log('hit detection')
     }
