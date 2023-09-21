@@ -83,7 +83,7 @@ const player = new Sprite({
 
 const enemy = new Sprite({
     position: {
-    x: 400,
+    x: 974,
     y: 0
     },
     velocity: {
@@ -177,16 +177,16 @@ function animate(){
 
     //player movement
     if (keys.a.pressed && player.lastKey == 'a') {
-        player.velocity.x = -5
+        player.velocity.x = -10
     } else if (keys.d.pressed && player.lastKey == 'd') {
-        player.velocity.x = 5
+        player.velocity.x = 10
     }
 
     //enemy movement
     if (keys.ArrowLeft.pressed && enemy.lastKey == 'ArrowLeft') {
-        enemy.velocity.x = -5
+        enemy.velocity.x = -10
     } else if (keys.ArrowRight.pressed && enemy.lastKey == 'ArrowRight') {
-        enemy.velocity.x = 5
+        enemy.velocity.x = 10
     }
 
     //collision detection
@@ -209,7 +209,7 @@ function animate(){
             }) &&
         enemy.isAttacking
     ) {
-        player.isAttacking = false
+        enemy.isAttacking = false
         player.health -= 20
         console.log('hit detected')
         document.querySelector('#playerHealth').style.width = player.health + "%"
