@@ -137,7 +137,7 @@ function determineWinner({player, enemy, timerId}){
     clearTimeout(timerId)
     document.querySelector("#displayText").style.display = 'flex'
     if(player.health === enemy.health){
-        document.querySelector("#displayText").innerHTML = 'TIE'
+        document.querySelector("#displayText").innerHTML = 'DRAW'
     }
 
     if(player.health > enemy.health){
