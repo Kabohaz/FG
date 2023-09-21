@@ -78,7 +78,7 @@ const player = new Sprite({
         x: 0,
         y: 0
     },
-    color: 'green'
+    color: 'yellow'
 })
 
 const enemy = new Sprite({
