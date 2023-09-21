@@ -8,7 +8,7 @@ c.fillRect(0,0,canvas.width,canvas.height)
 
 const gravity = 0.8
 class Sprite{
-    constructor({position, velocity, color, offset}){
+    constructor({position, velocity, color = 'red', offset}){
         this.position = position
         this.velocity = velocity
         this.width = 50
@@ -25,6 +25,7 @@ class Sprite{
         }
         this.color = color
         this.isAttacking
+        this.health = 100 
     }
 
     draw(){
@@ -36,7 +37,7 @@ class Sprite{
             c.fillStyle = 'red'
             c.fillRect(
                 this.attackBox.position.x, 
-                this.attackBox.y, 
+                this.attackBox.position.y, 
                 this.attackBox.width, 
                 this.attackBox.height
             )
@@ -118,7 +119,7 @@ const keys = {
         pressed: false
     }
 }
-
+//collision detection
 function boxCollision({rectangle1, rectangle2}) {
     return (
         rectangle1.attackBox.position.x + rectangle1.attackBox.width >=
@@ -131,6 +132,38 @@ function boxCollision({rectangle1, rectangle2}) {
         rectangle2.position.y + rectangle2.height 
     )
 }
+
+function determineWinner({player, enemy, timerId}){
+    clearTimeout(timerId)
+    document.querySelector("#displayText").style.display = 'flex'
+    if(player.health === enemy.health){
+        document.querySelector("#displayText").innerHTML = 'TIE'
+    }
+
+    if(player.health > enemy.health){
+        document.querySelector("#displayText").innerHTML = 'PLAYER 1 WINS'
+    }
+
+    if(player.health < enemy.health){
+        document.querySelector("#displayText").innerHTML = 'PLAYER 2 WINS'
+    }
+}
+
+let timer = 60
+let timerId
+function decreaseTimer() {
+    if (timer > 0) {
+        timerId = setTimeout(decreaseTimer, 1000)
+        timer--
+        document.querySelector("#timer").innerHTML = timer
+      }
+    if (timer === 0)
+    {
+        determineWinner({player, enemy})
+    }
+}
+
+decreaseTimer()
 
 function animate(){
     window.requestAnimationFrame(animate)
@@ -165,7 +198,9 @@ function animate(){
         player.isAttacking
     ) {
         player.isAttacking = false
-        console.log('hit detection')
+        console.log('hit detected')
+        enemy.health -= 20
+        document.querySelector('#enemyHealth').style.width = enemy.health + "%"
     }
     if (
         boxCollision({
@@ -175,7 +210,14 @@ function animate(){
         enemy.isAttacking
     ) {
         player.isAttacking = false
-        console.log('hit detection')
+        player.health -= 20
+        console.log('hit detected')
+        document.querySelector('#playerHealth').style.width = player.health + "%"
+    }
+
+    //win condition
+    if (enemy.health <=0 || player.health <= 0) {
+        determineWinner({player, enemy, timerId})
     }
 }
 
@@ -211,11 +253,11 @@ window.addEventListener('keydown', (event) => {
             keys.ArrowUp.pressed = true
             enemy.velocity.y = -20
             break
-            case 'ArrowDown':
-                enemy.attack()
-                break   
+        case 'ArrowDown':
+            enemy.attack()
+            break   
     }
-    console.log(event.key);
+    //console.log(event.key);
 })
 
 window.addEventListener('keyup', (event) => {
@@ -241,5 +283,5 @@ window.addEventListener('keyup', (event) => {
             keys.ArrowUp.pressed = false
             break
     }
-    console.log(event.key);
+    //consol e.log(event.key);
 })
